@@ -1,0 +1,26 @@
+{
+  "name": "custom-email",
+  "version": "0.2.0+codex.20260911072313",
+  "description": "Connect Zoho, choose a Namecheap domain, and create custom email with guided DNS setup.",
+  "author": {
+    "name": "Custom Email"
+  },
+  "interface": {
+    "displayName": "Custom Email",
+    "shortDescription": "Create Zoho mailboxes with guided Namecheap DNS.",
+    "longDescription": "Connect your own Zoho account, choose a Namecheap domain, and let Custom Email prepare, verify, and guide the required DNS changes before creating the mailbox.",
+    "developerName": "Custom Email",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Connect my Zoho Mail account.",
+      "Create hello@mydomain.com.",
+      "Check whether my custom email is ready."
+    ],
+    "brandColor": "#80FF9F"
+  },
+  "mcpServers": "./.mcp.json"
+}

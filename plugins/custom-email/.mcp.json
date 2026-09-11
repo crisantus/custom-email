@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "custom-email": {
+      "type": "http",
+      "url": "https://mail.nkavo.com/mcp"
+    }
+  }
+}
