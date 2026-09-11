@@ -90,11 +90,18 @@ export class ZohoClient {
 
   async listDomains(): Promise<ZohoDomain[]> {
     const data = await this.api(`/api/organization/${this.connection.orgId}/domains`);
-    return asArray(data.data).map(normalizeDomain).filter((domain) => domain.domainName);
+    return asArray(data.data?.domainVO ?? data.data).map(normalizeDomain).filter((domain) => domain.domainName);
   }
 
   async getDomain(domain: string): Promise<ZohoDomain | undefined> {
-    return (await this.listDomains()).find((item) => item.domainName.toLowerCase() === domain.toLowerCase());
+    try {
+      const data = await this.api(`/api/organization/${this.connection.orgId}/domains/${encodeURIComponent(domain)}`);
+      const result = normalizeDomain(data.data);
+      return result.domainName ? result : undefined;
+    } catch (error) {
+      if (error instanceof AppError && error.details?.status === 404) return undefined;
+      throw error;
+    }
   }
 
   async addDomain(domain: string): Promise<ZohoDomain> {
@@ -223,8 +230,8 @@ function normalizeDomain(value: any): ZohoDomain {
     domainName: String(value?.domainName ?? ''),
     verificationStatus: value?.verificationStatus === true,
     cnameVerificationCode: value?.CNAMEVerificationCode ? String(value.CNAMEVerificationCode) : undefined,
-    mxStatus: value?.mxStatus,
-    spfStatus: value?.spfStatus,
-    dkimStatus: value?.dkimStatus
+    mxStatus: value?.mxStatus ?? value?.mxstatus,
+    spfStatus: value?.spfStatus ?? value?.spfstatus,
+    dkimStatus: value?.dkimStatus ?? value?.dkimstatus
   };
 }
